@@ -1,0 +1,16 @@
+/home/baba/Documents/SharingCaring/SharingCaring/bin/Debug/net9.0/SharingCaring
+/home/baba/Documents/SharingCaring/SharingCaring/bin/Debug/net9.0/SharingCaring.deps.json
+/home/baba/Documents/SharingCaring/SharingCaring/bin/Debug/net9.0/SharingCaring.runtimeconfig.json
+/home/baba/Documents/SharingCaring/SharingCaring/bin/Debug/net9.0/SharingCaring.dll
+/home/baba/Documents/SharingCaring/SharingCaring/bin/Debug/net9.0/SharingCaring.pdb
+/home/baba/Documents/SharingCaring/SharingCaring/obj/Debug/net9.0/SharingCaring.GeneratedMSBuildEditorConfig.editorconfig
+/home/baba/Documents/SharingCaring/SharingCaring/obj/Debug/net9.0/SharingCaring.AssemblyInfoInputs.cache
+/home/baba/Documents/SharingCaring/SharingCaring/obj/Debug/net9.0/SharingCaring.AssemblyInfo.cs
+/home/baba/Documents/SharingCaring/SharingCaring/obj/Debug/net9.0/SharingCaring.csproj.CoreCompileInputs.cache
+/home/baba/Documents/SharingCaring/SharingCaring/obj/Debug/net9.0/SharingCaring.dll
+/home/baba/Documents/SharingCaring/SharingCaring/obj/Debug/net9.0/refint/SharingCaring.dll
+/home/baba/Documents/SharingCaring/SharingCaring/obj/Debug/net9.0/SharingCaring.pdb
+/home/baba/Documents/SharingCaring/SharingCaring/obj/Debug/net9.0/SharingCaring.genruntimeconfig.cache
+/home/baba/Documents/SharingCaring/SharingCaring/obj/Debug/net9.0/ref/SharingCaring.dll
+/home/baba/Documents/SharingCaring/SharingCaring/bin/Debug/net9.0/Content/index.html
+/home/baba/Documents/SharingCaring/SharingCaring/bin/Debug/net9.0/mov_bbb.mp4
