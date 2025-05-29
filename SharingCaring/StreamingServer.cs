@@ -1,15 +1,17 @@
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using SharingCaring.Util;
 
 namespace SharingCaring;
 
-public class StreamingServer(Queue<byte[]> queue)
+public class StreamingServer(ConcurrentQueue<byte[]> queue)
 {
+    public const int Port = 8000;
+
     public async Task RunAsync(CancellationToken cancellationToken)
     {
-        var tcpListener = new TcpListener(IPAddress.Any, 8000);
+        var tcpListener = new TcpListener(IPAddress.Any, Port);
 
         tcpListener.Start();
 
@@ -19,7 +21,7 @@ public class StreamingServer(Queue<byte[]> queue)
 
             try
             {
-                await HandleConnection(cancellationToken, tcpClient);
+                await HandleConnection(tcpClient, cancellationToken);
             }
             catch (Exception e)
             {
@@ -29,7 +31,7 @@ public class StreamingServer(Queue<byte[]> queue)
         }
     }
 
-    private static async Task HandleConnection(CancellationToken cancellationToken, TcpClient tcpClient)
+    private async Task HandleConnection(TcpClient tcpClient, CancellationToken cancellationToken)
     {
         var receiveBuffer = new byte[1024];
         var stream = tcpClient.GetStream();
@@ -41,7 +43,7 @@ public class StreamingServer(Queue<byte[]> queue)
         if (path.SequenceEqual("/api/downstream"u8))
         {
             var requestInitialHeader = """
-                                       HTTP/1.1 206 PARTIAL-CONTENT
+                                       HTTP/1.1 200 OK
                                        Access-Control-Allow-Headers: *
                                        Access-Control-Allow-Origin: *
                                        Connection: keep-alive
@@ -53,14 +55,10 @@ public class StreamingServer(Queue<byte[]> queue)
 
             stream.Write(requestInitialHeader);
 
-            // var videoBytes = queue.TryDequeue(out var data) ? data : [];
-            var video = File.ReadAllBytes("./mov_bbb.mp4");
-
-            while (!cancellationToken.IsCancellationRequested)
+            if (queue.TryDequeue(out var data))
             {
-                stream.Write(video);
-                stream.Flush();
-                Thread.Sleep(500);
+                stream.Write(data);
+                await stream.FlushAsync(cancellationToken);
             }
         }
 

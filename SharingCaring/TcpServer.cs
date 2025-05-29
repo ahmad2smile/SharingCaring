@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -6,7 +7,7 @@ using SharingCaring.Util;
 
 namespace SharingCaring;
 
-public class TcpServer(Queue<byte[]> queue)
+public class TcpServer(ConcurrentQueue<byte[]> queue)
 {
     private readonly ArrayPool<byte> _bufferPool = ArrayPool<byte>.Shared;
     private readonly byte[] _requestBuffer = new byte[1024 * 1024];
@@ -14,9 +15,11 @@ public class TcpServer(Queue<byte[]> queue)
 
     private readonly byte[] _homeContent = File.ReadAllBytes("./Content/index.html");
 
+    public const int Port = 8080;
+
     public async Task RunAsync(CancellationToken cancellationToken)
     {
-        var tcpListener = new TcpListener(IPAddress.Any, 8080);
+        var tcpListener = new TcpListener(IPAddress.Any, Port);
 
         tcpListener.Start();
 

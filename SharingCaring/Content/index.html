@@ -16,7 +16,7 @@
             const mediaSource = new MediaSource();
             const mimeCodec = 'video/webm;codecs=vp9';
             // const mimeCodec = 'video/mp4; codecs="avc1.42E01E"';
-            const buffer = [];
+            // const buffer = [];
 
             video.src = URL.createObjectURL(mediaSource);
             const cameraStream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
@@ -26,18 +26,28 @@
 
             recorder.ondataavailable = async (evt) => {
                 try {
-                    buffer.push(await evt.data.arrayBuffer())
+                    const videoData = await evt.data.arrayBuffer();
+                    await fetch("http://localhost:8080/api/upstream", { method: "POST", body: videoData });
+                    // buffer.push(await evt.data.arrayBuffer())
                 } catch (e) {
                     console.error('AppendBuffer failed:', e);
                 }
             };
 
             recorder.start(100);
-            setInterval(async () => {
-                if (buffer.length > 0) {
-                    sourceBuffer.appendBuffer(buffer.shift());
+            const fetchData = async () => {
+                const res = await fetch("http://localhost:8000/api/downstream");
+                const videoData = await res.arrayBuffer();
+                console.log("videoData", videoData.byteLength);
+
+                if (videoData.byteLength > 1) {
+                    console.log("Added data")
+                    sourceBuffer.appendBuffer(videoData);
                 }
-            });
+                
+                await fetchData();
+            };
+            fetchData().catch(console.error);
         }
 
         const getSourceBuffer = (_mediaSource, _mimeCodec) => {

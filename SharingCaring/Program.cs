@@ -1,8 +1,9 @@
-﻿using SharingCaring;
+﻿using System.Collections.Concurrent;
+using SharingCaring;
 
 Console.WriteLine("Hello, World!");
 
-var queue = new Queue<byte[]>();
+var queue = new ConcurrentQueue<byte[]>();
 var server = new TcpServer(queue);
 var streamingServer = new StreamingServer(queue);
 
